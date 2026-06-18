@@ -54,107 +54,88 @@ public class MaxBotService {
     public String getReplyForMessage(String message) {
         String lowerMsg = message.toLowerCase().trim();
 
-        // Приветствие
-        if (lowerMsg.contains("привет") || lowerMsg.equals("здравствуйте") || lowerMsg.equals("start")) {
-            return "Здравствуйте! 👕\n\nЯ — консультант бренда MAVE.\n\n" +
-                    "Расскажу вам о наших футболках, ценах, размерах, доставке и помогу с выбором.\n\n" +
-                    "Напишите, что вас интересует: цены, размеры, доставка, оплата.";
+        // ======== 1. ПРИВЕТСТВИЕ ========
+        if (lowerMsg.contains("привет") || lowerMsg.equals("здравствуйте") || lowerMsg.equals("добрый день") ||
+                lowerMsg.equals("старт") || lowerMsg.contains("приветствую") || lowerMsg.equals("хей") ||
+                lowerMsg.equals("ку") || lowerMsg.equals("здарова") || lowerMsg.equals("start")) {
+            return "Здравствуйте! Это виртуальный помощник MAVE. Мы — небольшой авторский проект, создающий футболки с уникальными принтами. Я помогу вам выбрать модель, оформить заказ или отвечу на частые вопросы. Что вас интересует?";
         }
 
-        // Цены
-        if (lowerMsg.contains("цен") || lowerMsg.contains("стои") || lowerMsg.contains("сколько")) {
-            return "💰 Стоимость одной футболки MAVE — 4 500 ₽.\n\n" +
-                    "🚚 Доставка оплачивается отдельно по тарифам почты или курьерской службы.\n\n" +
-                    "Примерная стоимость доставки по России — от 300 до 800 ₽, точную сумму рассчитает почта при оформлении.\n\n" +
-                    "Скидок нет, цена фиксированная.";
+        // ======== 2. МОДЕЛИ И РАЗМЕРЫ ========
+        if (lowerMsg.contains("модели") || lowerMsg.contains("размер") || lowerMsg.contains("мужской") ||
+                lowerMsg.contains("женский") || lowerMsg.contains("какой размер") || lowerMsg.contains("размерная сетка") ||
+                lowerMsg.contains("крои") || lowerMsg.contains("как выбрать размер") || lowerMsg.contains("у вас есть размер")) {
+            return "Мы заботимся о том, чтобы вещь MAVE сидела на вас идеально. Мы выпускаем футболки в двух вариантах кроя — мужском и женском.\n\nРазмеры: В наличии модели M и L.";
         }
 
-        // Размеры
-        if (lowerMsg.contains("размер") || lowerMsg.contains("малом") || lowerMsg.contains("габарит") ||
-                lowerMsg.contains("рост") || lowerMsg.contains("как подобрать") || lowerMsg.contains("таблиц")) {
-            return "📏 В наличии только два размера:\n\n" +
-                    "S — рост до 170 см, грудь до 92 см\n" +
-                    "M — рост до 178 см, грудь до 100 см\n\n" +
-                    "Если ваш размер не подходит — к сожалению, других размеров пока нет.";
+        // ======== 3. ЦЕНА И КАТАЛОГ ========
+        if (lowerMsg.contains("сколько стоит") || lowerMsg.contains("цена") || lowerMsg.contains("стоимость") ||
+                lowerMsg.contains("каталог") || lowerMsg.contains("где посмотреть") || lowerMsg.contains("показать модели") ||
+                lowerMsg.contains("ассортимент") || lowerMsg.contains("что есть") || lowerMsg.contains("выбор") ||
+                lowerMsg.contains("расценки") || lowerMsg.contains("прайс")) {
+            return "Стоимость любой футболки MAVE — 4500 рублей. Все актуальные модели можно посмотреть в нашем каталоге по ссылке: https://themave.ru";
         }
 
-        // Доставка
-        if (lowerMsg.contains("доставк") || lowerMsg.contains("отправк") || lowerMsg.contains("курьер") ||
-                lowerMsg.contains("срок") || lowerMsg.contains("когда придет") || lowerMsg.contains("почт")) {
-            return "🚚 Мы отправляем заказы по всей России.\n\n" +
-                    "Срок доставки — от 3 до 7 рабочих дней.\n\n" +
-                    "Стоимость доставки зависит от вашего региона:\n" +
-                    "• обычно от 300 до 800 ₽\n" +
-                    "• точную сумму рассчитает почта при оформлении заказа\n\n" +
-                    "Отправка происходит в течение 1-2 дней после оплаты.";
+        // ======== 4. ОПЛАТА ========
+        if (lowerMsg.contains("как оплатить") || lowerMsg.contains("оплата") || lowerMsg.contains("перевод") ||
+                lowerMsg.contains("наличные") || lowerMsg.contains("карта") || lowerMsg.contains("способ оплаты") ||
+                lowerMsg.contains("как заплатить") || lowerMsg.contains("реквизиты")) {
+            return "Сейчас оплата происходит при личном оформлении заказа через перевод или наличными при получении. Мы работаем напрямую с каждым покупателем, поэтому просто напишите нам в чат, и мы поможем оформить доставку!";
         }
 
-        // Оплата
-        if (lowerMsg.contains("оплат") || lowerMsg.contains("карт") || lowerMsg.contains("сбп") ||
-                lowerMsg.contains("нал") || lowerMsg.contains("как оплатить")) {
-            return "💳 Мы принимаем оплату:\n\n" +
-                    "• банковскими картами (Visa, Mastercard, МИР)\n" +
-                    "• через СБП\n" +
-                    "• наличными при самовывозе (если вы в Выборге)\n\n" +
-                    "Ссылка на оплату придёт после оформления заказа.";
+        // ======== 5. ДОСТАВКА ========
+        if (lowerMsg.contains("доставка") || lowerMsg.contains("отправка") || lowerMsg.contains("сроки") ||
+                lowerMsg.contains("почта") || lowerMsg.contains("сдэк") || lowerMsg.contains("курьер") ||
+                lowerMsg.contains("регион") || lowerMsg.contains("когда придет") || lowerMsg.contains("сколько ждать") ||
+                lowerMsg.contains("получение")) {
+            return "Мы доставляем футболки MAVE по всей России. Стоимость и сроки зависят от выбранного способа (СДЭК или Почта России) и вашего региона. Напишите нам в чат, куда нужно отправить посылку, и мы сориентируем вас по условиям.";
         }
 
-        // тест
-        if (lowerMsg.contains("тест")) {
-            return "тест работает";
+        // ======== 6. СОСТАВ И УХОД ========
+        if (lowerMsg.contains("ткань") || lowerMsg.contains("хлопок") || lowerMsg.contains("состав") ||
+                lowerMsg.contains("качество") || lowerMsg.contains("стирка") || lowerMsg.contains("уход") ||
+                lowerMsg.contains("принт") || lowerMsg.contains("материал") || lowerMsg.contains("гипоаллергенно") ||
+                lowerMsg.contains("как стирать") || lowerMsg.contains("гладить") || lowerMsg.contains("из чего")) {
+            return "Мы выбираем органический хлопок за его чистоту и мягкость. Он гипоаллергенный, отлично пропускает воздух и невероятно приятен к коже. Без вредных химикатов при выращивании — только бережное отношение к природе и максимальный комфорт для вас.\n\n" +
+                    "Чтобы принт и качество ткани радовали вас как можно дольше:\n" +
+                    "• Стирайте при температуре не выше 30-40°C.\n" +
+                    "• Используйте деликатный режим стирки.\n" +
+                    "• Гладьте футболку с изнаночной стороны, чтобы сохранить уникальность принта.";
         }
 
-
-        // Состав / качество
-        if (lowerMsg.contains("ткань") || lowerMsg.contains("хлопок") || lowerMsg.contains("материал") ||
-                lowerMsg.contains("качеств") || lowerMsg.contains("стирк") || lowerMsg.contains("уход")) {
-            return "👕 Мы используем 100% натуральный хлопок высокого качества.\n\n" +
-                    "Футболки мягкие, дышащие и хорошо держат форму.\n\n" +
-                    "Рекомендации по уходу:\n" +
-                    "• стирка при 30°C\n" +
-                    "• не отбеливать\n" +
-                    "• гладить с изнаночной стороны\n\n" +
-                    "При правильном уходе принт сохраняет яркость долгое время.";
+        // ======== 7. ПОМОЩЬ / КОНСУЛЬТАЦИЯ ========
+        if (lowerMsg.contains("помогите") || lowerMsg.contains("не знаю") || lowerMsg.contains("посоветуйте") ||
+                lowerMsg.contains("что выбрать") || lowerMsg.contains("подберите") || lowerMsg.contains("какой вариант") ||
+                lowerMsg.contains("как заказать") || lowerMsg.contains("как купить") || lowerMsg.contains("не могу определиться")) {
+            return "С удовольствием ответим на все вопросы, поможем определиться с размером и оформить доставку.";
         }
 
-        // Контакты
-        if (lowerMsg.contains("контакт") || lowerMsg.contains("связаться") || lowerMsg.contains("позвонить") ||
-                lowerMsg.contains("написать") || lowerMsg.contains("менеджер") || lowerMsg.contains("поддержк") ||
-                lowerMsg.contains("телефон") || lowerMsg.contains("почт") || lowerMsg.contains("tg") ||
-                lowerMsg.contains("telegram")) {
-            return "📱 Связаться с нами можно так:\n\n" +
-                    "Telegram: @masharachkova, @ElyaRachkova\n" +
-                    "Почта: alia85_07@mail.ru, masharachkovaa@gmail.com\n\n" +
-                    "Или просто продолжайте диалог со мной — я отвечу на все вопросы.";
+        // ======== 8. КОНТАКТЫ ========
+        if (lowerMsg.contains("контакты") || lowerMsg.contains("связаться") || lowerMsg.contains("позвонить") ||
+                lowerMsg.contains("написать") || lowerMsg.contains("менеджер") || lowerMsg.contains("поддержка") ||
+                lowerMsg.contains("телефон") || lowerMsg.contains("почта") || lowerMsg.contains("telegram") ||
+                lowerMsg.contains("tg") || lowerMsg.contains("email") || lowerMsg.contains("как с вами связаться") ||
+                lowerMsg.contains("куда позвонить")) {
+            return "Контакты для связи с нами:\n\n" +
+                    "• Telegram: @masharachkova, @ElyaRachkova\n" +
+                    "• Почта: alia85_07@mail.ru, masharachkovaa@gmail.com\n\n" +
+                    "Или просто продолжайте диалог — я помогу оформить заказ!";
         }
 
-        // Каталог
-        if (lowerMsg.contains("каталог") || lowerMsg.contains("ассортимент") || lowerMsg.contains("какие футболки") ||
-                lowerMsg.contains("выбор") || lowerMsg.contains("модель") || lowerMsg.contains("расцветк") ||
-                lowerMsg.contains("цвет")) {
-            return "🛍️ Весь ассортимент футболок MAVE представлен на нашем сайте:\n\n" +
-                    "👉 https://themave.ru\n\n" +
-                    "Размеры: только S и M.";
+        // ======== 9. СБОР КОНТАКТА (заказ / согласие) ========
+        if (lowerMsg.equals("да") || lowerMsg.contains("хочу заказать") || lowerMsg.contains("согласен") ||
+                lowerMsg.contains("оформить") || lowerMsg.contains("заказ") || lowerMsg.contains("купить") ||
+                lowerMsg.equals("ок") || lowerMsg.equals("давай") || lowerMsg.contains("хочу купить") ||
+                lowerMsg.contains("оставьте контакты")) {
+            return "Пожалуйста, напишите здесь ваш номер телефона или ник, по которому нам удобнее всего связаться с вами.";
         }
 
-        // Бренд / О нас
-        if (lowerMsg.contains("бренд") || lowerMsg.contains("о вас") || lowerMsg.contains("кто вы")) {
-            return "👕 MAVE — это бренд качественной одежды из натурального хлопка.\n\n" +
-                    "Мы создаём футболки, в которых комфортно в любой ситуации.\n\n" +
-                    "Каждая модель продумана до мелочей — от ткани до принта.\n\n" +
-                    "Простота, стиль и качество — вот что такое MAVE.";
-        }
-
-
-
-        // Если ничего не подошло
-        return "Спасибо за ваш вопрос! Я не совсем понял, что вы ищете.\n\n" +
-                "Я могу рассказать вам о:\n" +
-                "• ценах (4 500 ₽)\n" +
-                "• размерах (только S и M)\n" +
-                "• доставке (по всей России)\n" +
-                "• оплате (карта, СБП, наличные)\n" +
-                "• уходе за футболкой\n" +
+        // ======== СТАНДАРТНЫЙ ОТВЕТ (если ничего не подошло) ========
+        return "Я не совсем понял ваш вопрос. Я могу помочь вам с:\n" +
+                "• выбором модели и размеров\n" +
+                "• ценой и каталогом\n" +
+                "• оплатой и доставкой\n" +
+                "• составом и уходом за футболками\n\n" +
                 "Напишите, что вас интересует, или посмотрите каталог на сайте: https://themave.ru";
     }
 }
