@@ -48,10 +48,13 @@ public class HomeController {
                     return ResponseEntity.ok("OK");
                 }
 
-                String reply = maxBotService.getReplyForMessage(text);
+                String reply = maxBotService.getReplyForMessage(chatId, text);
                 maxBotService.sendMessage(chatId, reply);
 
-                String groupMessage = "🛍 **Магазин MAVE**\nОт: " + senderName + "\nВопрос: " + text;
+                String groupMessage = "🛍 **Магазин MAVE**\n" +
+                        "👤 От: " + senderName + "\n" +
+                        "💬 Вопрос: " + text + "\n" +
+                        "🤖 Ответ бота: " + reply;
                 maxBotService.sendMessage(notificationsChatId, groupMessage);
 
             } else if ("bot_started".equals(updateType)) {
