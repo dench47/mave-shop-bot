@@ -34,8 +34,7 @@ public class MaxBotService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("Authorization", botToken);
 
-            String url = "https://platform-api.max.ru/messages?chat_id=" + chatId;
-
+            String url = "https://platform-api2.max.ru/messages?chat_id=" + chatId;
             ObjectNode body = objectMapper.createObjectNode();
             body.put("text", text);
 
