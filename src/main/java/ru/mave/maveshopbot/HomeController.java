@@ -9,11 +9,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 @RestController
 public class HomeController {
 
     private static final Logger log = LoggerFactory.getLogger(HomeController.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    // Защита от дублей: храним ID обработанных сообщений
+    private final Set<String> processedMessages = Collections.synchronizedSet(new HashSet<>());
 
     @Autowired
     private MaxBotService maxBotService;
@@ -30,12 +37,28 @@ public class HomeController {
     public ResponseEntity<String> handleMaxWebhook(@RequestBody String payload) {
         log.info("Получен webhook от MAX: {}", payload);
 
+        // Запускаем обработку в отдельном потоке, а 200 OK возвращаем сразу
+        new Thread(() -> processWebhook(payload)).start();
+
+        return ResponseEntity.ok("OK");
+    }
+
+    private void processWebhook(String payload) {
         try {
             JsonNode json = objectMapper.readTree(payload);
             String updateType = json.has("update_type") ? json.get("update_type").asText() : "";
 
+            // Проверка на дубли по mid сообщения
             if ("message_created".equals(updateType)) {
                 JsonNode message = json.get("message");
+                String mid = message.get("body").get("mid").asText();
+
+                if (processedMessages.contains(mid)) {
+                    log.info("Дубль mid {}, игнорируем", mid);
+                    return;
+                }
+                processedMessages.add(mid);
+
                 JsonNode recipient = message.get("recipient");
                 long chatId = recipient.get("chat_id").asLong();
                 String chatType = recipient.has("chat_type") ? recipient.get("chat_type").asText() : "dialog";
@@ -45,7 +68,7 @@ public class HomeController {
 
                 if ("chat".equals(chatType) || "group".equals(chatType)) {
                     log.info("Сообщение из группы {}, игнорируем", chatId);
-                    return ResponseEntity.ok("OK");
+                    return;
                 }
 
                 String reply = maxBotService.getReplyForMessage(chatId, text);
@@ -73,11 +96,8 @@ public class HomeController {
                 maxBotService.sendMessage(notificationsChatId, notification);
             }
 
-            return ResponseEntity.ok("OK");
-
         } catch (Exception e) {
             log.error("Ошибка обработки webhook", e);
-            return ResponseEntity.badRequest().body("Error");
         }
     }
 }
